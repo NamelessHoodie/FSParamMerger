@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="Dependencies\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Spectre.Console" Version="0.41.0" />
+		<ProjectReference Include="..\SoulsFormats\SoulsFormats.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="ParamSource\gameparam_dlc2.parambnd.dcx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ParamTarget\gameparam_dlc2.parambnd.dcx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Param\ParamSource\gameparam_dlc2.parambnd.dcx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Param\ParamTarget\gameparam_dlc2.parambnd.dcx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>
