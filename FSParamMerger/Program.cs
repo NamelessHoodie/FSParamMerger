@@ -20,10 +20,17 @@ namespace FSParamMerger
                     new SelectionPrompt<string>()
                         .Title("Select the Game for which you desire to merge params for, choosing the wrong game might damage your params [red]ENTER[/]")
                         .MoreChoicesText("[grey](Move up and down to reveal more Games)[/]")
-                        .AddChoices(new string[] {"SDT","DS3", "BB", "DS2S", "DS1R", "DS1", "DES"}));
+                        .AddChoices(new string[] {"SDT", "DS3", "BB", "DS2S", "DS1R", "DS1", "DES"}));
+
+            var (paramSourcePath, paramTargetPath) = args.Length switch
+            {
+                2 => (args[0], args[1]),
+                _ => (@"ParamSource\gameparam_dlc2.parambnd.dcx", @"ParamTarget\gameparam_dlc2.parambnd.dcx"),
+            };
+
             //ParamsRW paramVanilla = new ParamsRW();
-            ParamsRW paramSource = new ParamsRW("ParamSource\\gameparam_dlc2.parambnd.dcx", gameType);
-            ParamsRW paramTarget = new ParamsRW("ParamTarget\\gameparam_dlc2.parambnd.dcx", gameType);
+            ParamsRW paramSource = new ParamsRW(paramSourcePath, gameType);
+            ParamsRW paramTarget = new ParamsRW(paramTargetPath, gameType);
 
             CompareAndMergeParams(paramTarget, paramSource);
         }
