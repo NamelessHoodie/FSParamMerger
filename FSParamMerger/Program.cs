@@ -22,17 +22,55 @@ namespace FSParamMerger
                         .MoreChoicesText("[grey](Move up and down to reveal more Games)[/]")
                         .AddChoices(new string[] {"SDT", "DS3", "BB", "DS2S", "DS1R", "DS1", "DES"}));
 
+            var targetParamDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ParamTarget");
+            var sourceParamDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ParamSource");
+
+            var targetParams = Directory.GetFiles(targetParamDirPath, "*.dcx");
+            var sourceParams = Directory.GetFiles(sourceParamDirPath, "*.dcx");
+
+            string firstSourceParamPath = sourceParams.Any() ? sourceParams.First() : null;
+            string firstTargetParamPath = targetParams.Any() ? targetParams.First() : null;
+
+            if (new StringBuilder("test") is var sb && sb != null)
+            {
+                Console.WriteLine(sb);
+            }
+
+            if (firstSourceParamPath == null || firstTargetParamPath == null)
+            {
+                if (firstSourceParamPath == null)
+                {
+                    Console.WriteLine($"There is no source Param file in in: {sourceParamDirPath}");
+                }
+                else if (firstTargetParamPath == null)
+                {
+                    Console.WriteLine($"There is no source Param file in in: {targetParamDirPath}");
+                }
+                goto ExitPoint;
+            }
+            else if (Path.GetFileName(firstSourceParamPath) is var fileSourceName && Path.GetFileName(firstSourceParamPath) is var fileTargetName && fileSourceName != fileTargetName)
+            {
+                Console.WriteLine($"Source Param Name is: {firstSourceParamPath}");
+                Console.WriteLine($"Target Param Name is: {fileTargetName}");
+                Console.WriteLine("Source and Target Param Name are not matching, terminating program.");
+                goto ExitPoint;
+            }
+
             var (paramSourcePath, paramTargetPath) = args.Length switch
             {
                 2 => (args[0], args[1]),
-                _ => (@"ParamSource\gameparam_dlc2.parambnd.dcx", @"ParamTarget\gameparam_dlc2.parambnd.dcx"),
+                _ => (firstSourceParamPath, firstTargetParamPath),
             };
 
-            //ParamsRW paramVanilla = new ParamsRW();
             ParamsRW paramSource = new ParamsRW(paramSourcePath, gameType);
             ParamsRW paramTarget = new ParamsRW(paramTargetPath, gameType);
 
             CompareAndMergeParams(paramTarget, paramSource);
+
+        ExitPoint:
+            Console.WriteLine("Press Any Key To Exist...");
+            Console.ReadLine();
+            return;
         }
 
         static void CompareAndMergeParams(ParamsRW target, ParamsRW source)
