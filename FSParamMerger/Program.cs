@@ -133,20 +133,36 @@ namespace FSParamMerger
 
         public class ParamsRW
         {
-            private BND4 gameparamBND;
+            private BND4 gameParamBND4;
+            private BND3 gameParamBND3;
             private string bndPath;
             public Dictionary<string, PARAM> paramDictionary;
 
             public ParamsRW(string gameparamBNDPath, string gameType)
             {
-                if (BND4.IsRead(gameparamBNDPath, out BND4 paramsBinder))
+                if (BND4.IsRead(gameparamBNDPath, out BND4 paramsBinder4))
                 {
                     bndPath = gameparamBNDPath;
-                    gameparamBND = paramsBinder;
+                    gameParamBND4 = paramsBinder4;
                     var paramDictionary = new Dictionary<string, PARAM>();
                     var paramDefList = new List<PARAMDEF>();
                     new List<string>(Directory.GetFiles($"Dependencies\\Paramdex\\{gameType}\\Defs", "*.xml")).ForEach(paramDef => paramDefList.Add(PARAMDEF.XmlDeserialize(paramDef)));
-                    foreach (var file in paramsBinder.Files)
+                    foreach (var file in paramsBinder4.Files)
+                    {
+                        PARAM param = PARAM.Read(file.Bytes);
+                        param.ApplyParamdefCarefully(paramDefList);
+                        paramDictionary.Add(file.Name, param);
+                    }
+                    this.paramDictionary = paramDictionary;
+                }
+                else if (BND3.IsRead(gameparamBNDPath, out BND3 paramsBinder3))
+                {
+                    bndPath = gameparamBNDPath;
+                    gameParamBND3 = paramsBinder3;
+                    var paramDictionary = new Dictionary<string, PARAM>();
+                    var paramDefList = new List<PARAMDEF>();
+                    new List<string>(Directory.GetFiles($"Dependencies\\Paramdex\\{gameType}\\Defs", "*.xml")).ForEach(paramDef => paramDefList.Add(PARAMDEF.XmlDeserialize(paramDef)));
+                    foreach (var file in paramsBinder3.Files)
                     {
                         PARAM param = PARAM.Read(file.Bytes);
                         param.ApplyParamdefCarefully(paramDefList);
@@ -163,14 +179,28 @@ namespace FSParamMerger
 
             public void Write(string bndPath)
             {
-                foreach (var file in gameparamBND.Files)
+                if (gameParamBND4 != null)
                 {
-                    if (paramDictionary.TryGetValue(file.Name, out PARAM param))
+                    foreach (var file in gameParamBND4.Files)
                     {
-                        file.Bytes = param.Write();
+                        if (paramDictionary.TryGetValue(file.Name, out PARAM param))
+                        {
+                            file.Bytes = param.Write();
+                        }
                     }
+                    gameParamBND4.Write(bndPath);
                 }
-                gameparamBND.Write(bndPath);
+                else if (gameParamBND3 != null)
+                {
+                    foreach (var file in gameParamBND3.Files)
+                    {
+                        if (paramDictionary.TryGetValue(file.Name, out PARAM param))
+                        {
+                            file.Bytes = param.Write();
+                        }
+                    }
+                    gameParamBND3.Write(bndPath);
+                }
             }
         }
     }
