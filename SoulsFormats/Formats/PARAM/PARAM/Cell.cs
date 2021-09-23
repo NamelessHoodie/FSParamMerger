@@ -56,12 +56,6 @@ namespace SoulsFormats
                 Value = value;
             }
 
-            internal Cell(Cell clone)
-            {
-                Def = clone.Def;
-                Value = clone.Value;
-            }
-
             /// <summary>
             /// Returns a string representation of the cell.
             /// </summary>

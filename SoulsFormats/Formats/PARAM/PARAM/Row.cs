@@ -13,11 +13,6 @@ namespace SoulsFormats
         public class Row
         {
             /// <summary>
-            /// The paramdef that describes this row.
-            /// </summary>
-            public PARAMDEF Def { get; set; }
-
-            /// <summary>
             /// The ID number of this row.
             /// </summary>
             public int ID { get; set; }
@@ -39,7 +34,6 @@ namespace SoulsFormats
             /// </summary>
             public Row(int id, string name, PARAMDEF paramdef)
             {
-                Def = paramdef;
                 ID = id;
                 Name = name;
 
@@ -52,24 +46,6 @@ namespace SoulsFormats
                 }
                 Cells = cells;
             }
-
-            /// <summary>
-            /// Copy constructor for a row. Does not add to the param.
-            /// </summary>
-            /// <param name="clone">The row that is being copied</param>
-            public Row(Row clone)
-            {
-                Def = clone.Def;
-                ID = clone.ID;
-                Name = clone.Name;
-                var cells = new List<Cell>(clone.Cells.Count);
-
-                foreach (var cell in clone.Cells)
-                {
-                    cells.Add(new Cell(cell));
-                }
-                Cells = cells;
-}
 
             internal Row(BinaryReaderEx br, PARAM parent, ref long actualStringsOffset)
             {
@@ -105,8 +81,6 @@ namespace SoulsFormats
                 // In case someone decides to add new rows before applying the paramdef (please don't do that)
                 if (DataOffset == 0)
                     return;
-
-                Def = paramdef;
 
                 br.Position = DataOffset;
                 var cells = new Cell[paramdef.Fields.Count];
@@ -335,7 +309,7 @@ namespace SoulsFormats
             /// <summary>
             /// Returns the first cell in the row with the given internal name.
             /// </summary>
-            public Cell this[string name] => Cells.FirstOrDefault(cell => cell.Def.InternalName == name);
+            public Cell this[string name] => Cells.First(cell => cell.Def.InternalName == name);
         }
     }
 }

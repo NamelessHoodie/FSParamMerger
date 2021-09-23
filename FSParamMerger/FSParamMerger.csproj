@@ -19,13 +19,13 @@
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="ParamSource\gameparam_dlc2.parambnd.dcx">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="ParamTarget\enc_regulation.bnd.dcx">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="ParamTarget\gameparam_dlc2.parambnd.dcx">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Param\ParamSource\gameparam_dlc2.parambnd.dcx">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>

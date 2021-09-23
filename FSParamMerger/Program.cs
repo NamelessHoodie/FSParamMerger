@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace FSParamMerger
                     new SelectionPrompt<string>()
                         .Title("Select the Game for which you desire to merge params for, choosing the wrong game might damage your params [red]ENTER[/]")
                         .MoreChoicesText("[grey](Move up and down to reveal more Games)[/]")
-                        .AddChoices(new string[] {"SDT", "DS3", "BB", "DS2S", "DS1R", "DS1", "DES"}));
+                        .AddChoices(new string[] { "SDT", "DS3", "BB", "DS2S", "DS1R", "DS1", "DES" }));
 
             var targetParamDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ParamTarget");
             var sourceParamDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ParamSource");
@@ -30,11 +31,6 @@ namespace FSParamMerger
 
             string firstSourceParamPath = sourceParams.Any() ? sourceParams.First() : null;
             string firstTargetParamPath = targetParams.Any() ? targetParams.First() : null;
-
-            if (new StringBuilder("test") is var sb && sb != null)
-            {
-                Console.WriteLine(sb);
-            }
 
             if (firstSourceParamPath == null || firstTargetParamPath == null)
             {
@@ -48,13 +44,13 @@ namespace FSParamMerger
                 }
                 goto ExitPoint;
             }
-            else if (Path.GetFileName(firstSourceParamPath) is var fileSourceName && Path.GetFileName(firstSourceParamPath) is var fileTargetName && fileSourceName != fileTargetName)
-            {
-                Console.WriteLine($"Source Param Name is: {firstSourceParamPath}");
-                Console.WriteLine($"Target Param Name is: {fileTargetName}");
-                Console.WriteLine("Source and Target Param Name are not matching, terminating program.");
-                goto ExitPoint;
-            }
+            //else if (Path.GetFileName(firstSourceParamPath) is var fileSourceName && Path.GetFileName(firstSourceParamPath) is var fileTargetName && fileSourceName != fileTargetName)
+            //{
+            //    Console.WriteLine($"Source Param Name is: {firstSourceParamPath}");
+            //    Console.WriteLine($"Target Param Name is: {fileTargetName}");
+            //    Console.WriteLine("Source and Target Param Name are not matching, terminating program.");
+            //    goto ExitPoint;
+            //}
 
             var (paramSourcePath, paramTargetPath) = args.Length switch
             {
@@ -85,6 +81,9 @@ namespace FSParamMerger
                 stream.WriteLine(Path.GetFileNameWithoutExtension(keySource));
                 if (target.paramDictionary.TryGetValue(keySource, out PARAM paramTarget))
                 {
+                    Console.WriteLine(paramSource.ParamType);
+                    Console.WriteLine(paramTarget.ParamType);
+
                     for (int iRow = 0; iRow < paramSource.Rows.Count(); iRow++)
                     {
                         var rowSource = paramSource.Rows[iRow];
@@ -102,7 +101,7 @@ namespace FSParamMerger
                                     stream.WriteLine($"    Row - Name({rowSource.Name}), ID({rowSource.ID}), Cell({iCell}): Source({cellSource.Value}) => Target({cellTarget.Value})");
                                     cellTarget.Value = cellSource.Value;
                                 }
-                            }                                                                           
+                            }
                         }
                         else
                         {
@@ -149,9 +148,12 @@ namespace FSParamMerger
                     new List<string>(Directory.GetFiles($"Dependencies\\Paramdex\\{gameType}\\Defs", "*.xml")).ForEach(paramDef => paramDefList.Add(PARAMDEF.XmlDeserialize(paramDef)));
                     foreach (var file in paramsBinder4.Files)
                     {
-                        PARAM param = PARAM.Read(file.Bytes);
-                        param.ApplyParamdefCarefully(paramDefList);
-                        paramDictionary.Add(file.Name, param);
+                        if (file.Name.EndsWith(".param"))
+                        {
+                            PARAM param = PARAM.Read(file.Bytes);
+                            Debug.Assert(param.ApplyParamdefCarefully(paramDefList));
+                            paramDictionary.Add(file.Name, param);
+                        }
                     }
                     this.paramDictionary = paramDictionary;
                 }
@@ -164,9 +166,12 @@ namespace FSParamMerger
                     new List<string>(Directory.GetFiles($"Dependencies\\Paramdex\\{gameType}\\Defs", "*.xml")).ForEach(paramDef => paramDefList.Add(PARAMDEF.XmlDeserialize(paramDef)));
                     foreach (var file in paramsBinder3.Files)
                     {
-                        PARAM param = PARAM.Read(file.Bytes);
-                        param.ApplyParamdefCarefully(paramDefList);
-                        paramDictionary.Add(file.Name, param);
+                        if (file.Name.EndsWith(".param"))
+                        {
+                            PARAM param = PARAM.Read(file.Bytes);
+                            param.ApplyParamdefCarefully(paramDefList);
+                            paramDictionary.Add(file.Name, param);
+                        }
                     }
                     this.paramDictionary = paramDictionary;
                 }

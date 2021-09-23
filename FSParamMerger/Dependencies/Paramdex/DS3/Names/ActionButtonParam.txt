@@ -1,4 +1,6 @@
-0 Test 0 -- テスト0
+0 
+
+0 -- テスト0
 1 Test One -- テスト1
 1000 Regain The Lost Life -- 失ったライフを取り戻す
 1010 Take a Life -- ライフをとる

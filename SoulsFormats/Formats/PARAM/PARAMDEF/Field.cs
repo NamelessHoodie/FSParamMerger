@@ -91,11 +91,6 @@ namespace SoulsFormats
         public class Field
         {
             /// <summary>
-            /// Owning PARAMDEF
-            /// </summary>
-            public PARAMDEF Parent { get; }
-
-            /// <summary>
             /// Name to display in the editor.
             /// </summary>
             public string DisplayName { get; set; }
@@ -208,7 +203,6 @@ namespace SoulsFormats
 
             internal Field(BinaryReaderEx br, PARAMDEF def)
             {
-                Parent = def;
                 if (def.FormatVersion >= 202)
                     DisplayName = br.GetUTF16(br.ReadInt64());
                 else if (def.Unicode)
