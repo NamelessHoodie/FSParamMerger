@@ -151,7 +151,7 @@ namespace FSParamMerger
                         if (file.Name.EndsWith(".param"))
                         {
                             PARAM param = PARAM.Read(file.Bytes);
-                            Debug.Assert(param.ApplyParamdefCarefully(paramDefList));
+                            param.ApplyParamdefCarefully(paramDefList);
                             paramDictionary.Add(file.Name, param);
                         }
                     }
