@@ -15,8 +15,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="ParamSource\enc_regulation.bnd.dcx">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
 		<None Update="ParamSource\gameparam_dlc2.parambnd.dcx">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ParamTarget\enc_regulation.bnd.dcx">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="ParamTarget\gameparam_dlc2.parambnd.dcx">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
