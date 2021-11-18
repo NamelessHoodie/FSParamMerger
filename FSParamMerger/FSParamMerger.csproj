@@ -3,6 +3,16 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<PackageVersion>1.0.1.2</PackageVersion>
+		<Authors>NamelessHoodie[2]</Authors>
+		<Copyright>MIT</Copyright>
+		<PackageProjectUrl>https://github.com/NamelessHoodie/FSParamMerger</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/NamelessHoodie/FSParamMerger/blob/main/LICENSE</PackageLicenseUrl>
+		<RepositoryUrl>https://github.com/NamelessHoodie/FSParamMerger</RepositoryUrl>
+		<RepositoryType>GitHub</RepositoryType>
+		<PackageReleaseNotes>Fixed Sekiro</PackageReleaseNotes>
+		<AssemblyVersion>1.0.1.2</AssemblyVersion>
+		<FileVersion>1.0.1.2</FileVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
