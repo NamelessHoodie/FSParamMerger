@@ -19,6 +19,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="oo2core_6_win64.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="ParamSource\enc_regulation.bnd.dcx">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

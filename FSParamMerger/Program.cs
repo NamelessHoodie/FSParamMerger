@@ -151,8 +151,10 @@ namespace FSParamMerger
                         if (file.Name.EndsWith(".param"))
                         {
                             PARAM param = PARAM.Read(file.Bytes);
-                            param.ApplyParamdefCarefully(paramDefList);
-                            paramDictionary.Add(file.Name, param);
+                            if (param.ApplyParamdefCarefully(paramDefList))
+                            {
+                                paramDictionary.Add(file.Name, param);
+                            }
                         }
                     }
                     this.paramDictionary = paramDictionary;
@@ -169,8 +171,10 @@ namespace FSParamMerger
                         if (file.Name.EndsWith(".param"))
                         {
                             PARAM param = PARAM.Read(file.Bytes);
-                            param.ApplyParamdefCarefully(paramDefList);
-                            paramDictionary.Add(file.Name, param);
+                            if (param.ApplyParamdefCarefully(paramDefList))
+                            {
+                                paramDictionary.Add(file.Name, param);
+                            }
                         }
                     }
                     this.paramDictionary = paramDictionary;
